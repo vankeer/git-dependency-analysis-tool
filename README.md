@@ -48,6 +48,24 @@ Can return a lot of results, depending on the size of your organisation. Use wit
 
 `MATCH (n) RETURN n`
 
+### Return everything that depends on Angular
+
+`MATCH (n)-[r:DEPENDS_ON]->(d:Dependency {name: "@angular/core"}) RETURN n, d`
+
+### Return everything that depends on Angular 12 or higher
+
+`MATCH (n)-[r:DEPENDS_ON]->(d:Dependency {name: "@angular/core"}) WHERE r.version =~ "^[>\^~ ]?12.*" RETURN n, d`
+
+### Return only the Gitlab projects that depends on Angular 12 or higher
+
+Could be useful when we start adding Github or Bitbucket projects as well...
+
+`MATCH (p:Project)-[CONTAINS]->()-[r:DEPENDS_ON]->(d:Dependency {name: "@angular/core"}) WHERE p.type = "Gitlab" AND r.version =~ "^[>\^~ ]?12.*" RETURN p`
+
+### Return any project that directly or indirectly depends on a specific dependency
+
+`MATCH (p:Project)-[CONTAINS]->()-[r:DEPENDS_ON*]->(d:Dependency {name: "@angular/core"}) RETURN p`
+
 ### Delete everything
 
 Useful for clearing everything before re-importing. Use with caution!
