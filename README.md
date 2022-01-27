@@ -42,6 +42,8 @@ Note it down and change the `.env` file.
 
 ## Useful Queries
 
+More documentation about Cypher queries here: https://neo4j.com/developer/cypher/
+
 ### Return everything
 
 Can return a lot of results, depending on the size of your organisation. Use with caution!
@@ -65,6 +67,16 @@ Could be useful when we start adding Github or Bitbucket projects as well...
 ### Return any project that directly or indirectly depends on a specific dependency
 
 `MATCH (p:Project)-[CONTAINS]->()-[r:DEPENDS_ON*]->(d:Dependency {name: "@angular/core"}) RETURN p`
+
+### Return the Angular versions for all projects that were last active before the 21st of December, 2021
+
+`MATCH (p:Project)-[:CONTAINS]->(:Package)-[r:DEPENDS_ON]->(d:Dependency { name: "@angular/core" }) WHERE p.last_activity_at < Date({ year: 2020, month: 12, day: 21}) RETURN r.version`
+
+### Return any project name WITHOUT a package.json
+
+Useful for e.g. excluding these projects from the analysis in the future...
+
+`MATCH (p:Project) WHERE NOT (p)-[:CONTAINS]->(:Package) RETURN p.name`
 
 ### Delete everything
 
