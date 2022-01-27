@@ -1,8 +1,7 @@
 import dotenv from 'dotenv';
 import { spawn, Worker, Thread } from 'threads';
 
-import { GitlabProject } from './models/GitlabProject';
-import { getProjects } from './http/gitlab/getProjects';
+import { getProjects, GetProjectsResponse } from './http/gitlab/getProjects';
 
 dotenv.config();
 
@@ -18,15 +17,22 @@ async function main(): Promise<void> {
   console.log('Starting git-graph-insights import...');
   const processor = await spawn(new Worker('./workers/project-processor'));
 
-  await getProjects(1)
-    .then((projects: GitlabProject[]) => {
-      console.log('Got projects', projects.length);
-      return processor.createMultipleGitlabProjects(projects);
-    })
-    .then((result) => {
-      console.log('Created', result);
-    })
-    .finally(() => Thread.terminate(processor));
+  function getAllProjects(page: number) {
+    if (page) {
+      return getProjects(page, 3000).then((response: GetProjectsResponse) => {
+        console.log('Received projects', { length: response.projects.length, nextPage: response.nextPage });
+        return processor.createMultipleGitlabProjects(response.projects).then(() => {
+          console.log('Processed page', page);
+          return getAllProjects(response.nextPage);
+        });
+      });
+    } else {
+      // processed all projects
+      return null;
+    }
+  }
+
+  await getAllProjects(1).finally(() => Thread.terminate(processor));
 }
 
 main().catch(console.error);
