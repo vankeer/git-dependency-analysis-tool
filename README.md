@@ -40,6 +40,10 @@ After starting the Neo4j container, navigate to http://localhost:7474/
 Log in using the username `neo4j` and password `neo4j`. You will be asked to configure a new password. 
 Note it down and change the `.env` file.
 
+## Running the script
+
+After configuring the `.env` file, run the script to populate your local Neo4j instance with `npm start`.
+
 ## Useful Queries
 
 More documentation about Cypher queries here: https://neo4j.com/developer/cypher/
