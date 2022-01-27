@@ -7,4 +7,5 @@ export interface GitlabProject {
   last_activity_at: string;
   visibility: string;
   default_branch: string;
+  empty_repo: boolean;
 }

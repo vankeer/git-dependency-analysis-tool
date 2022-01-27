@@ -6,7 +6,7 @@ export function getRawFile(projectId: number, path: string, branch: string): Pro
   const apiUrl = config.GITLAB_API.RAW_FILE.replace(':projectId', `${projectId}`)
     .replace(':path', encodeURIComponent(path))
     .replace(':branch', branch);
-  console.log('getRawFile', { projectId, path, apiUrl });
+  console.log('getRawFile', projectId);
   return axios
     .get<string>(apiUrl, {
       headers: {
@@ -14,17 +14,16 @@ export function getRawFile(projectId: number, path: string, branch: string): Pro
       },
     })
     .then((result: AxiosResponse<string>) => {
-      console.log('Got data');
+      console.log('Found raw file');
       return result.data;
     })
     .catch((error: AxiosError) => {
-      console.error('Error', error);
       if (error && error.response.status === 404) {
         console.error('Could not find raw file');
         return null;
       }
 
-      console.error('Failed to fetch raw file', error);
+      console.error('Failed to fetch raw file');
       return Promise.reject(error);
     });
 }
