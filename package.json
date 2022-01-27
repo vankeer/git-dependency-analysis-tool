@@ -1,5 +1,5 @@
 {
-  "name": "git-graph-insights",
+  "name": "git-to-da-choppa",
   "version": "1.0.0",
   "description": "Node.js tool for analyzing Gitlab repositories and dumping the data in Neo4J for analysis.",
   "main": "dist/main.js",
