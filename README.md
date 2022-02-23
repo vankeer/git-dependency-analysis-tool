@@ -1,6 +1,6 @@
-# git-to-da-choppa
+# git-dependency-analysis-tool
 
-Simple Node.js tool for reading the projects in your organisation's Gitlab, and populating the data in a Neo4j graph database. 
+Simple Node.js tool for reading the projects in your organisation's GitLab, and populating the data in a Neo4j graph database. 
 This allows you to write powerful Cypher queries to find out dependencies, specific versions, etc... (see below for examples).
 
 **WORK IN PROGRESS**

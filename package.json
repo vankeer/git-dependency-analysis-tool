@@ -1,7 +1,7 @@
 {
-  "name": "git-to-da-choppa",
+  "name": "git-dependency-analysis-tool",
   "version": "1.0.0",
-  "description": "Node.js tool for analyzing Gitlab repositories and dumping the data in Neo4J for analysis.",
+  "description": "Node.js tool for analyzing Git repository organisations (such as GitLab) and dumping the data in Neo4J for visualization, querying, and analysis.",
   "main": "dist/main.js",
   "scripts": {
     "start": "npm run build && node dist/main.js",
